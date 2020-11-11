@@ -4,7 +4,7 @@ Super simple uploading of continuous builds (each push) to GitHub Releases. If t
 
 ## Usage
 
-This script is designed to be called from Travis CI after a successful build. By default, this script will _delete_ any pre-existing release tagged with `continuous`, tag the current state with the name `continuous`, create a new release with that name, and upload the specified binaries there. For pull requests, it will upload the binaries to transfer.sh instead and post the resulting download URL to the pull request page on GitHub.
+This script is designed to be called from Travis CI after a successful build. By default, this script will _delete_ any pre-existing release tagged with `continuous`, tag the current state with the name `continuous`, create a new release with that name, and upload the specified binaries there. For pull requests, it will upload the binaries to transfersh.com instead and post the resulting download URL to the pull request page on GitHub.
 
  - On https://github.com/settings/tokens, click on "Generate new token" and generate a token with at least the `public_repo`, `repo:status`, and `repo_deployment` scopes
  - On Travis CI, go to the settings of your project at `https://travis-ci.com/yourusername/yourrepository/settings`
@@ -39,6 +39,8 @@ One possible use case for this is to set up continuous builds for feature or tes
 This will create builds tagged with `continuous` for pushes / merges to `master` and with `continuous-<branch-name>` for pushes / merges to other branches.
 
 The two environment variables `UPLOADTOOL_PR_BODY` and `UPLOADTOOL_BODY` allow the calling script to customize the messages that are posted either for pull requests or merges / pushes. If these variables aren't set, generic default texts are used.
+
+Set the environment variable `UPLOADTOOL_ISPRERELEASE=true` if you want an untagged release to be marked as pre-release on GitHub.
 
 Note that `UPLOADTOOL*` variables will be used in bash script to form a JSON request, that means some
 characters like double quotes and new lines need to be escaped - example: `export UPLOADTOOL_BODY="\\\"Experimental\\\" version.\nDon't use this.\nTravis CI build log: https://travis-ci.com/$TRAVIS_REPO_SLUG/builds/$TRAVIS_BUILD_ID/"`
